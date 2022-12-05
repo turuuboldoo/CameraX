@@ -1,4 +1,4 @@
-package mn.turbo.cameras
+package mn.turbo.camera
 
 import android.content.Intent
 import android.net.Uri
@@ -73,7 +73,7 @@ fun CameraCapture(
                 Button(
                     modifier = Modifier
                         .wrapContentSize()
-                        .padding(16.dp)
+                        .padding(bottom = 16.dp)
                         .align(Alignment.BottomCenter),
                     onClick = {
                         coroutineScope.launch(Dispatchers.IO) {
@@ -81,7 +81,7 @@ fun CameraCapture(
                         }
                     }
                 ) {
-                    Text(text = "Click")
+                    Text(text = "Take picture")
                 }
             }
 

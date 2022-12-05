@@ -1,4 +1,4 @@
-package mn.turbo.cameras
+package mn.turbo.camera
 
 import android.content.Context
 import android.util.Log
@@ -24,7 +24,7 @@ suspend fun Context.getCameraProvider(): ProcessCameraProvider =
     }
 
 val ioExecutor = Dispatchers.IO.asExecutor()
-val providerIoExecutor = Dispatchers.IO.asExecutor()
+private val providerIoExecutor = Dispatchers.IO.asExecutor()
 
 suspend fun ImageCapture.takePicture(executor: Executor): File {
     val photoFile = withContext(Dispatchers.IO) {

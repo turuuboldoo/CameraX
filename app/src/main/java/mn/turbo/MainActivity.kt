@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import coil.compose.rememberAsyncImagePainter
 import mn.turbo.Constant.EMPTY_IMAGE_URI
-import mn.turbo.cameras.CameraCapture
+import mn.turbo.camera.CameraCapture
 import mn.turbo.gallery.GalleryImage
 import mn.turbo.ui.theme.CameraTheme
 
@@ -52,7 +52,9 @@ fun MainContent(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxSize()
             )
             Button(
-                modifier = Modifier.align(Alignment.BottomCenter),
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 16.dp),
                 onClick = {
                     imageUri = EMPTY_IMAGE_URI
                 }
@@ -84,7 +86,7 @@ fun MainContent(modifier: Modifier = Modifier) {
                     onClick = { showGallery = true },
                     modifier = Modifier
                         .align(Alignment.TopCenter)
-                        .padding(4.dp)
+                        .padding(top = 16.dp)
                 ) {
                     Text(text = "Select from Gallery")
                 }

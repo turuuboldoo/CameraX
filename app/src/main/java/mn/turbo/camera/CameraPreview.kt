@@ -1,4 +1,4 @@
-package mn.turbo.cameras
+package mn.turbo.camera
 
 import android.view.ViewGroup
 import androidx.camera.core.Preview
