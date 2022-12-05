@@ -1,4 +1,4 @@
-package mn.turbo.camera
+package mn.turbo
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,10 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import coil.compose.rememberAsyncImagePainter
-import mn.turbo.camera.Constant.EMPTY_IMAGE_URI
-import mn.turbo.camera.camera.CameraCapture
-import mn.turbo.camera.gallery.GalleryImage
-import mn.turbo.camera.ui.theme.CameraTheme
+import mn.turbo.Constant.EMPTY_IMAGE_URI
+import mn.turbo.cameras.CameraCapture
+import mn.turbo.gallery.GalleryImage
+import mn.turbo.ui.theme.CameraTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

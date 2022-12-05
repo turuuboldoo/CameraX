@@ -1,4 +1,4 @@
-package mn.turbo.camera.permission
+package mn.turbo.permission
 
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
@@ -12,7 +12,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 @Composable
 fun Permission(
     permission: String = android.Manifest.permission.CAMERA,
-    rationale: String = "This permission is important for this app. Please grant the permission.",
+    rationale: String = "We need your permission to access your camera",
     permissionNotAvailableContent: @Composable () -> Unit = {},
     content: @Composable () -> Unit = {}
 ) {
@@ -41,7 +41,7 @@ fun Rationale(
     AlertDialog(
         onDismissRequest = { },
         title = {
-            Text(text = "Give me Permission")
+            Text(text = "Permission")
         },
         text = {
             Text(text = text)

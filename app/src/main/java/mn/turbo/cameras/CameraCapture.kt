@@ -1,4 +1,4 @@
-package mn.turbo.camera.camera
+package mn.turbo.cameras
 
 import android.content.Intent
 import android.net.Uri
@@ -6,7 +6,7 @@ import android.provider.Settings
 import android.util.Log
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY
+import androidx.camera.core.ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY
 import androidx.camera.core.Preview
 import androidx.camera.core.UseCase
 import androidx.compose.foundation.layout.*
@@ -18,8 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.asExecutor
 import kotlinx.coroutines.launch
-import mn.turbo.camera.permission.Permission
+import mn.turbo.permission.Permission
 import java.io.File
 
 @Composable
@@ -33,7 +35,7 @@ fun CameraCapture(
     Permission(
         permissionNotAvailableContent = {
             Column(modifier = modifier) {
-                Text(text = "We need your permission to access camera?")
+                Text(text = "We need your permission to access your camera")
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(onClick = {
                     context.startActivity(
@@ -55,7 +57,9 @@ fun CameraCapture(
             val imageCaptureUseCase by remember {
                 mutableStateOf(
                     ImageCapture.Builder()
-                        .setCaptureMode(CAPTURE_MODE_MAXIMIZE_QUALITY)
+                        .setIoExecutor(Dispatchers.IO.asExecutor())
+                        .setCaptureMode(CAPTURE_MODE_MINIMIZE_LATENCY)
+                        .setJpegQuality(50)
                         .build()
                 )
             }
@@ -72,8 +76,8 @@ fun CameraCapture(
                         .padding(16.dp)
                         .align(Alignment.BottomCenter),
                     onClick = {
-                        coroutineScope.launch {
-                            onImageFile(imageCaptureUseCase.takePicture(context.executor))
+                        coroutineScope.launch(Dispatchers.IO) {
+                            onImageFile(imageCaptureUseCase.takePicture(ioExecutor))
                         }
                     }
                 ) {
@@ -81,9 +85,7 @@ fun CameraCapture(
                 }
             }
 
-            LaunchedEffect(
-                key1 = previewUseCase
-            ) {
+            LaunchedEffect(previewUseCase) {
                 val cameraProvider = context.getCameraProvider()
                 try {
                     cameraProvider.unbindAll()
@@ -96,5 +98,4 @@ fun CameraCapture(
             }
         }
     }
-
 }

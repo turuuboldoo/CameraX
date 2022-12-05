@@ -1,4 +1,4 @@
-package mn.turbo.camera.gallery
+package mn.turbo.gallery
 
 import android.Manifest
 import android.content.Intent
@@ -15,8 +15,8 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import mn.turbo.camera.Constant.EMPTY_IMAGE_URI
-import mn.turbo.camera.permission.Permission
+import mn.turbo.Constant.EMPTY_IMAGE_URI
+import mn.turbo.permission.Permission
 
 @Composable
 fun GalleryImage(

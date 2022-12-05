@@ -1,4 +1,4 @@
-package mn.turbo.camera
+package mn.turbo
 
 import android.net.Uri
 

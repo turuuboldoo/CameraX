@@ -1,4 +1,4 @@
-package mn.turbo.camera.ui.theme
+package mn.turbo.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

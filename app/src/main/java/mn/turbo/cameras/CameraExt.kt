@@ -1,13 +1,11 @@
-package mn.turbo.camera.camera
+package mn.turbo.cameras
 
 import android.content.Context
 import android.util.Log
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.content.ContextCompat
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.io.File
 import java.util.concurrent.Executor
 import kotlin.coroutines.resume
@@ -15,17 +13,18 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 @Suppress("BlockingMethodInNonBlockingContext")
-suspend fun Context.getCameraProvider(): ProcessCameraProvider = suspendCoroutine { continuation ->
-    ProcessCameraProvider.getInstance(this)
-        .also { future ->
-            future.addListener({
-                continuation.resume(future.get())
-            }, executor)
-        }
-}
+suspend fun Context.getCameraProvider(): ProcessCameraProvider =
+    suspendCoroutine { continuation ->
+        ProcessCameraProvider.getInstance(this)
+            .also { future ->
+                future.addListener({
+                    continuation.resume(future.get())
+                }, providerIoExecutor)
+            }
+    }
 
-val Context.executor: Executor
-    get() = ContextCompat.getMainExecutor(this)
+val ioExecutor = Dispatchers.IO.asExecutor()
+val providerIoExecutor = Dispatchers.IO.asExecutor()
 
 suspend fun ImageCapture.takePicture(executor: Executor): File {
     val photoFile = withContext(Dispatchers.IO) {
@@ -49,7 +48,6 @@ suspend fun ImageCapture.takePicture(executor: Executor): File {
             }
 
             override fun onError(exception: ImageCaptureException) {
-                Log.w("123123", "take picture failed $exception")
                 continuation.resumeWithException(exception)
             }
         })
